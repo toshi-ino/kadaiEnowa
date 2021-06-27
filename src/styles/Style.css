@@ -1,0 +1,113 @@
+@harset "UTF-8"
+
+body {
+  font-family: "メイリオ", "Meiryo", sans-serif;
+  color: #4d5156;
+  background-color: #ffffff;
+}
+
+header {
+  font-size: 13px;
+}
+
+.headerElement {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 5vh;
+  margin: 10px 10px;
+}
+
+.deviceBtn {
+  margin: 0 30px;
+  color: inherit;
+}
+
+.logo {
+  padding-top: 2px;
+  width: 40px;
+}
+
+.loading {
+  position: fixed;
+  top: 40%;
+  left: 50%;
+}
+
+.loadingFig {
+  opacity: 0.7;
+}
+
+.map {
+  position: relative;
+  top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+ul {
+  list-style: none;
+}
+
+.graphGroup1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.graphGroup2 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.graph {
+  padding: 0 40px;
+}
+
+.btn {
+  /* position: relative;
+  top: 50px; */
+}
+
+.bars {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.barInputBaseTime {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 30px 0 0;
+}
+
+.barInputYearMonthDay {
+  width: 250px;
+}
+
+.dropdownTime {
+  width: 100px;
+}
+
+.barInputTerm {
+  width: 250px;
+  margin: 0 0 0 30px;
+}
+
+.barsButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.btn {
+  margin: 20px 0 0 60px;
+}
