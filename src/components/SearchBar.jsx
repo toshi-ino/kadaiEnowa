@@ -3,16 +3,32 @@ import DatePicker from "react-widgets/DatePicker";
 import DropdownList from "react-widgets/DropdownList";
 
 
+const getTermDropDwonList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,24];
+
+const getTimeList = () => {
+    let iterations = 48;
+    let result = [];
+    for(let i = 0; i < iterations; i++) {
+        let hour = Math.floor(i / 2);
+        let minute = (i % 2) > 0 ? '30' : '00';
+        result.push(hour + ':' + minute);
+    }
+    return result;
+  }
+
+
 const SearchBarDayTime = ({
     value,
     setValue,
-    displayTimeList,
-    displayTermlist,
+    // displayTimeList,
+    // displayTermlist,
     reqTime,
     setReqTime,
     term,
     setTerm,
 }) => {
+
+
     return (
             <div className="bars">
                 <div className="barInputBaseTime">
@@ -32,19 +48,19 @@ const SearchBarDayTime = ({
                     <div className="dropdownTime">
                         <label>　</label>　
                             <DropdownList
-                                data={displayTimeList}
+                                data={getTimeList}
                                 textField="label"
                                 className="w-2/5 mt-0"
                                 placeholder={`${new Date().getHours()}:${new Date().getMinutes()}`}
                                 value={reqTime}
-                                onSelect={setReqTime}
+                                onChange={setReqTime}
                             />
                     </div>
                 </div>
                 <div className="barInputTerm" >
                 <label>表示時間</label>
                     <DropdownList
-                        data={displayTermlist}
+                        data={getTermDropDwonList}
                         textField="label"
                         className="w-2/5 mt-0"
                         defaultValue={1}

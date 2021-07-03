@@ -9,7 +9,12 @@ import {
   } from 'recharts';
 import moment from 'moment';
 
-const Graph = ({resources, element, minY, maxY, intervalY, grdId, colorCode, labelY}) => {
+
+const Graph = React.memo(({resources, element, minY, maxY, intervalY, grdId, colorCode, labelY}) => {
+    console.log("graphの中");
+    console.log(resources);
+    const user = resources.user.read();
+    const dataGraph = user["toshiro-20210614"];
 
     return(
         <React.Fragment>
@@ -30,7 +35,7 @@ const Graph = ({resources, element, minY, maxY, intervalY, grdId, colorCode, lab
                 </defs>
             </svg>
 
-            <AreaChart width={550} height={180} data={resources} margin={{ top: 10, right: 20, left: 20, bottom: 10 }}>
+            <AreaChart width={550} height={180} data={dataGraph} margin={{ top: 10, right: 20, left: 20, bottom: 10 }}>
                 <XAxis
                     style={{fontSize:10}}
                     dataKey="timestamp"
@@ -49,21 +54,21 @@ const Graph = ({resources, element, minY, maxY, intervalY, grdId, colorCode, lab
                     label={{ value: `${labelY}`, angle: -90, position: 'insideLeft', fontSize:12 }}
                 />
                 <Tooltip />
-                <CartesianGrid //グラフのグリッドを指定
-                    stroke="#f5f5f5" //グリッド線の色を指定
+                <CartesianGrid
+                    stroke="#f5f5f5"
                     />
                 <Area
-                    type="monotone"  //グラフが曲線を描くように指定。default値は折れ線グラフ
-                    dataKey={`${element}`}  //Array型のデータの、Y軸に表示したい値のキーを指定
-                    stroke={colorCode}  ////グラフの線の色を指定
-                    fillOpacity={0.55}  ////グラフの中身の薄さを指定
-                    fill={`url(#${grdId})`}  //グラフの色を指定
+                    type="monotone"
+                    dataKey={`${element}`}
+                    stroke={colorCode}
+                    fillOpacity={0.55}
+                    fill={`url(#${grdId})`}
 
                     />
             </AreaChart>
         </div>
         </React.Fragment>
     );
-};
+});
 
 export default Graph;

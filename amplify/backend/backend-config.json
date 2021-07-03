@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "graphenowa990b2259": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}

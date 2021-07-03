@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-graphenowa-dev-192712-authRole",
+      "UnauthRoleArn": "arn:aws:iam::883000355750:role/amplify-graphenowa-dev-192712-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::883000355750:role/amplify-graphenowa-dev-192712-authRole",
+      "Region": "ap-northeast-1",
+      "DeploymentBucketName": "amplify-graphenowa-dev-192712-deployment",
+      "UnauthRoleName": "amplify-graphenowa-dev-192712-unauthRole",
+      "StackName": "amplify-graphenowa-dev-192712",
+      "StackId": "arn:aws:cloudformation:ap-northeast-1:883000355750:stack/amplify-graphenowa-dev-192712/3e1d5b20-d732-11eb-a5fa-065be1cbeaa1",
+      "AmplifyAppId": "d1r2ux5lctqsuk"
+    },
+    "categories": {
+      "auth": {
+        "graphenowa990b2259": {}
+      }
+    }
+  }
+}
