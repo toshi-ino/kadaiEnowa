@@ -28,7 +28,6 @@ const App = () => {
 //   const [term, setTerm] = useState(1);
 
 
-
   const postDatas = ({valueDate, reqTime, valueDateEnd, reqTimeEnd}) => {
 
     if(reqTime.length === 0)　{
@@ -177,7 +176,6 @@ const App = () => {
         result = err;
       }
     );
-  
     return {
       read() {
         if (status === "pending") {
@@ -244,9 +242,9 @@ const App = () => {
     const [reqTimeEnd, setReqTimeEnd] = useState([])
     const [isOpened, setIsOpened] = useState(false);
  
-    console.log("Home頭あたま");
-    console.log(`valueDate: ${valueDate}`);
-    console.log(`reqTime: ${reqTime}`);
+    // console.log("Home頭あたま");
+    // console.log(`valueDate: ${valueDate}`);
+    // console.log(`reqTime: ${reqTime}`);
 
     const displayInputBar =()=>{
       setIsOpened(wasOpened => !wasOpened);
