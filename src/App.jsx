@@ -1,7 +1,8 @@
-import React, { useState, lazy, Suspense } from "react";
+import React, { useState, Suspense } from "react";
 import Button from "./components/Button";
-import ButtonDisplayInputBar from "./components/ButtonDisplayInputBar";
-import AwsApi from "./apis/AwsApi";
+import ButtonDitailConditon from "./components/ButtonDitailConditon";
+import ButtonDitailConditonSearch from "./components/ButtonDitailConditonSearch";
+// import AwsApi from "./apis/AwsApi";
 import Graph from "./components/Graph";
 import logo from "./logo_v04.png";
 import Map from "./components/Map";
@@ -10,8 +11,6 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 import moment from 'moment';
 import "react-widgets/styles.css";
 import "./styles/Style.css";
-// import SearchBarDayTime from "./components/SearchBar"
-// import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react'
 import DatePicker from "react-widgets/DatePicker";
 import DropdownList from "react-widgets/DropdownList";
 import axios from "axios";
@@ -23,49 +22,47 @@ const resourceInit = fetchData();
 
 const App = () => {
   const [resources, setResources] = useState(resourceInit);
-  const [loading, setLoading] = useState(false);
 //   const [valueDate, setValueDate] = useState(new Date());
 //   const [value, setValue] = useState(new Date());
 //   const [reqTime, setReqTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}`)
 //   const [term, setTerm] = useState(1);
 
 
-//   const getDatasHarfHour = async () => {
-//     setLoading(true);
-//     try {
-//         const datas = await AwsApi.get();
-//         // const str = JSON.stringify(posts.data);
-//         // const obj = JSON.parse(str);
-//         // const objNoId = posts.data["toshiro-20210614"];
-//         const objNoId = datas.data[process.env.REACT_APP_DEVICE_NAME];
-//         setResources(objNoId);
-//     } catch (err) {
-//         console.log(err);
-//     }
-//     setLoading(false);
-//   };
 
+  const postDatas = ({valueDate, reqTime, valueDateEnd, reqTimeEnd}) => {
 
+    if(reqTime.length === 0)　{
+      alert("開始時間を入力してください");
+      return;
+    }
 
-  const postDatas = ({valueDate,reqTime, term}) => {
+    if(reqTimeEnd.length === 0)　{
+      alert("終了時間を入力してください");
+      return;
+    }
 
     const params = new URLSearchParams();
     const divReqTime = reqTime.split(":");
-
-    console.log(valueDate);
-    console.log(reqTime);
+    const divReqTimeEnd = reqTimeEnd.split(":");
 
     valueDate.setHours(Number(divReqTime[0]));
     valueDate.setMinutes(Number(divReqTime[1]));
+    valueDateEnd.setHours(Number(divReqTimeEnd[0]));
+    valueDateEnd.setMinutes(Number(divReqTimeEnd[1]));
 
-    if(valueDate.getTime() > new Date().getTime())　{
-        alert("現在の日時よりも過去の値を入力してください");
+    if(valueDate.getTime() > valueDateEnd.getTime())　{
+      alert("開始日時は終了日時より前の値を入力してください");
+      return;
+    }
+
+    if(valueDateEnd.getTime() > new Date().getTime())　{
+        alert("終了日時には現在の日時よりも過去の値を入力してください");
         return;
     }
-    console.log(valueDate);
 
     params.append('sendBaseTime', new moment(valueDate).format('YYYY-MM-DDTHH:mm:ss'));
-    params.append('sendTerm', term);
+    params.append('sendTimeEnd', new moment(valueDateEnd).format('YYYY-MM-DDTHH:mm:ss'));
+    // params.append('sendTerm', term);
     for (let data of params.entries()){
         console.log(`${data[0]}: ${data[1]}`);
     }
@@ -78,55 +75,8 @@ const App = () => {
     const datas = {
         user: wrapPromise(userPromise),
     }
-
     setResources(datas);
-
   };
-
-
-//   const getDatas = ({valueDate,reqTime, term}) => {
-
-//     const userPromise = axios
-//     .get("https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614/threehour")
-//     .then((res) => res.data)
-//     .catch((err) => console.log(err));
-
-//     const datas = {
-//         user: wrapPromise(userPromise),
-//     }
-
-//     setResources(datas);
-
-//   };
-
-
-  const wrapPromise = (promise) => {
-    let status = "pending";
-    let result;
-    let suspender = promise.then(
-      (res) => {
-        status = "success";
-        result = res;
-      },
-      (err) => {
-        status = "error";
-        result = err;
-      }
-    );
-  
-    return {
-      read() {
-        if (status === "pending") {
-          throw suspender;
-        } else if (status === "error") {
-          throw result;
-        } else if (status === "success") {
-          return result;
-        }
-      },
-    };
-  };
-
 
 //   const postDatas = ({valueDate,reqTime, term}) => {
 
@@ -165,6 +115,81 @@ const App = () => {
 //   };
 
 
+  const getDatasThreeHour = () => {
+    const userPromise = axios
+    .get("https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614/threehour")
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+    const datas = {
+        user: wrapPromise(userPromise),
+    }
+    setResources(datas);
+  };
+
+  const getDatasTwelveHour = () => {
+    const userPromise = axios
+    .get("https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614/twelvehour")
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+    const datas = {
+        user: wrapPromise(userPromise),
+    }
+    setResources(datas);
+  };
+
+  const getDatasOneDay = () => {
+    const userPromise = axios
+    .get("https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614/oneday")
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+    const datas = {
+        user: wrapPromise(userPromise),
+    }
+    setResources(datas);
+  };
+
+  const getDatasThreeDay = () => {
+    const userPromise = axios
+    .get("https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614/threeday")
+    .then((res) => res.data)
+    .catch((err) => console.log(err));
+
+    const datas = {
+        user: wrapPromise(userPromise),
+    }
+    setResources(datas);
+  };
+
+
+  const wrapPromise = (promise) => {
+    let status = "pending";
+    let result;
+    let suspender = promise.then(
+      (res) => {
+        status = "success";
+        result = res;
+      },
+      (err) => {
+        status = "error";
+        result = err;
+      }
+    );
+  
+    return {
+      read() {
+        if (status === "pending") {
+          throw suspender;
+        } else if (status === "error") {
+          throw result;
+        } else if (status === "success") {
+          return result;
+        }
+      },
+    };
+  };
 
   const MapStyle = {
     width: "500px",
@@ -201,53 +226,31 @@ const App = () => {
     for(let i = 0; i < iterations; i++) {
         let hour = Math.floor(i / 2);
         let minute = (i % 2) > 0 ? '30' : '00';
-        result.push(hour + ':' + minute);
+        if(hour < 10){
+          result.push('0' + hour + ':' + minute);
+        }else{
+          result.push(hour + ':' + minute);  
+        }
     }
     return result;
   }
 
-  const getTermDropDwonList = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23,24];
-
-//   const displayInputBar =({displayValue,setDisplayValue})=>{
-//     alert(displayValue);
-//     // if(displayValue === "hidden"){
-//     //     setDisplayValue("visible")
-//     //     console.log(displayValue);
-//     //     console.log("hidenの方");
-//     // }else{
-//     //     setDisplayValue("hidden")
-//     //     console.log(displayValue);
-//     // }
-//   };
-
-//   const [displayValue, setDisplayValue] = useState("hidden");
-
   const Home = () => {
 
     const [valueDate, setValueDate] = useState(new Date());
-    const [reqTime, setReqTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}`)
-    const [term, setTerm] = useState(1);
-    // const [displayValue, setDisplayValue] = useState("hidden");
-    const [displayValue, setDisplayValue] = useState("visible");
+    const [valueDateEnd, setValueDateEnd] = useState(new Date());
+    // const [reqTime, setReqTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}`)
+    const [reqTime, setReqTime] = useState([])
+    const [reqTimeEnd, setReqTimeEnd] = useState([])
+    const [isOpened, setIsOpened] = useState(false);
  
     console.log("Home頭あたま");
     console.log(`valueDate: ${valueDate}`);
     console.log(`reqTime: ${reqTime}`);
-    console.log(`term: ${term}`);
 
-
-    const displayInputBar =({displayValue,setDisplayValue})=>{
-        alert(displayValue);
-        // if(displayValue === "hidden"){
-        //     setDisplayValue("visible")
-        //     console.log(displayValue);
-        //     console.log("hidenの方");
-        // }else{
-        //     setDisplayValue("hidden")
-        //     console.log(displayValue);
-        // }
-      };
-
+    const displayInputBar =()=>{
+      setIsOpened(wasOpened => !wasOpened);
+    };
 
     return(
         <React.Fragment>
@@ -259,17 +262,24 @@ const App = () => {
                     </div>
                 </header>
 
-                <Button onClick={()=>postDatas({valueDate, reqTime, term})}  />
-                {/* <ButtonDisplayInputBar onClick={()=>displayInputBar({displayValue,setDisplayValue})}  /> */}
+                <Button 
+                  getDatasThreeHour={()=>getDatasThreeHour()}
+                  getDatasTwelveHour={()=>getDatasTwelveHour()}
+                  getDatasOneDay={()=>getDatasOneDay()}
+                  getDatasThreeDay={()=>getDatasThreeDay()}  
+                />
+                <div class="btnDitailCondition" >
+                  <ButtonDitailConditon onClick={displayInputBar}　/>
+                </div>
 
-
-                <div id="view" style={{visibility: `${displayValue}`}}>
+                {isOpened && (
+                <div id="view" >
                     <div className="barsButton">
                         <div className="bars">
                             <div className="barInputBaseTime">
                                 <div className="barInputYearMonthDay">
-                                    <label>日時</label>
-                                    <DatePicker
+                                    <label for="datePikerStart" >開始日</label>
+                                    <DatePicker id="datePikerStart"
                                         defaultValue={new Date()}
                                         className="w-3/5"
                                         max={new Date()}
@@ -280,8 +290,8 @@ const App = () => {
                                     />
                                 </div>
                                 <div className="dropdownTime">
-                                    <label>　</label>　
-                                        <DropdownList
+                                    <label for="dropDownListStart">開始時間</label>　
+                                        <DropdownList id="dropDownListStart"
                                             data={getTimeList()}
                                             textField="label"
                                             className="w-2/5 mt-0"
@@ -291,7 +301,32 @@ const App = () => {
                                         />
                                 </div>
                             </div>
-                            <div className="barInputTerm" >
+                            <div className="barInputBaseTime">
+                                <div className="barInputYearMonthDay">
+                                    <label for="datePikerEnd ">終了日</label>
+                                    <DatePicker id="datePikerEnd"
+                                        defaultValue={new Date()}
+                                        className="w-3/5"
+                                        max={new Date()}
+                                        min={new Date(2021, 5, 21,0,0)}
+                                        value={valueDateEnd}
+                                        onSelect={setValueDateEnd}
+                                        valueFormat={{ dateStyle: "medium"}}
+                                    />
+                                </div>
+                                <div className="dropdownTime">
+                                    <label for="dropDownListEnd">終了時間</label>　
+                                        <DropdownList id="dropDownListEnd"
+                                            data={getTimeList()}
+                                            textField="label"
+                                            className="w-2/5 mt-0"
+                                            placeholder={`${new Date().getHours()}:${new Date().getMinutes()}`}
+                                            value={reqTimeEnd}
+                                            onSelect={setReqTimeEnd}
+                                        />
+                                </div>
+                            </div>
+                            {/* <div className="barInputTerm" >
                                 <label>表示時間</label>
                                 <DropdownList
                                     data={getTermDropDwonList}
@@ -301,10 +336,14 @@ const App = () => {
                                     value={term}
                                     onSelect={setTerm}
                                 />
-                            </div>
+                            </div> */}
+                        </div>
+                        <div class="btnDitailConditonSearch">
+                          <ButtonDitailConditonSearch onClick={()=>postDatas({valueDate, reqTime, valueDateEnd, reqTimeEnd})} />
                         </div>
                     </div>
                 </div>
+                )}
 
 
                 <Suspense fallback={<Loading />}>
@@ -327,16 +366,6 @@ const App = () => {
         </React.Fragment>
     );
   };
-
-
-//     if(loading){
-//         return (
-//         <React.Fragment>
-//             <Loading />
-//         </React.Fragment>
-//     );
-//   };
-
 
   return (
     <React.Fragment>

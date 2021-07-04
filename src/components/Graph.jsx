@@ -43,7 +43,7 @@ const Graph = React.memo(({resources, element, minY, maxY, intervalY, grdId, col
                     label ={{value:"時間", offset: -7, position: "insideBottomRight", fontSize:12}}
                     // interval={Math.round(resources.length / 6)}
                     interval="preserveStartEnd"
-                    // reversed={true}
+                    reversed={true}
                 />
                 <YAxis
                     style={{fontSize:12}}
