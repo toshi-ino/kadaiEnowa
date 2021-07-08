@@ -11,10 +11,10 @@ import moment from 'moment';
 
 
 const Graph = React.memo(({resources, element, minY, maxY, intervalY, grdId, colorCode, labelY}) => {
-    console.log("graphの中");
-    console.log(resources);
-    const user = resources.user.read();
-    const dataGraph = user["toshiro-20210614"];
+    // console.log("graphの中");
+    // console.log(resources);
+    const graphData = resources.user.read();
+    const dataGraph = graphData["toshiro-20210614"];
 
     return(
         <React.Fragment>
@@ -43,7 +43,7 @@ const Graph = React.memo(({resources, element, minY, maxY, intervalY, grdId, col
                     label ={{value:"時間", offset: -7, position: "insideBottomRight", fontSize:12}}
                     // interval={Math.round(resources.length / 6)}
                     interval="preserveStartEnd"
-                    // reversed={true}
+                    reversed={true}
                 />
                 <YAxis
                     style={{fontSize:12}}
