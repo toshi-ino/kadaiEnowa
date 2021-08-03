@@ -22,10 +22,6 @@ const resourceInit = fetchData();
 
 const App = () => {
   const [resources, setResources] = useState(resourceInit);
-//   const [valueDate, setValueDate] = useState(new Date());
-//   const [value, setValue] = useState(new Date());
-//   const [reqTime, setReqTime] = useState(`${new Date().getHours()}:${new Date().getMinutes()}`)
-//   const [term, setTerm] = useState(1);
 
 
   const postDatas = ({valueDate, reqTime, valueDateEnd, reqTimeEnd}) => {
@@ -49,8 +45,8 @@ const App = () => {
     valueDateEnd.setHours(Number(divReqTimeEnd[0]));
     valueDateEnd.setMinutes(Number(divReqTimeEnd[1]));
 
-    if(valueDate.getTime() > valueDateEnd.getTime())　{
-      alert("開始日時は終了日時より前の値を入力してください");
+    if(valueDate.getTime() >= valueDateEnd.getTime())　{
+      alert("開始日時は終了日時より過去の値を入力してください");
       return;
     }
 
@@ -324,17 +320,6 @@ const App = () => {
                                         />
                                 </div>
                             </div>
-                            {/* <div className="barInputTerm" >
-                                <label>表示時間</label>
-                                <DropdownList
-                                    data={getTermDropDwonList}
-                                    textField="label"
-                                    className="w-2/5 mt-0"
-                                    defaultValue={1}
-                                    value={term}
-                                    onSelect={setTerm}
-                                />
-                            </div> */}
                         </div>
                         <div class="btnDitailConditonSearch">
                           <ButtonDitailConditonSearch onClick={()=>postDatas({valueDate, reqTime, valueDateEnd, reqTimeEnd})} />
@@ -371,7 +356,6 @@ const App = () => {
             <div>
                 <Route exact path='/' component={Home} />
                 <Route path='/DeviceInfo' component={DeviceInfo} />
-                {/* <AmplifySignOut /> */}
             </div>
         </BrowserRouter>
     </React.Fragment>
