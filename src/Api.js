@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const databaseAws = process.env.REACT_APP_DATABASE_AWS;
+
 export const fetchData = () => {
   const userPromise = fetchUser();
   return {
@@ -37,9 +39,7 @@ const wrapPromise = (promise) => {
 const fetchUser = () => {
   console.log("Fetching User...");
   return axios
-    .get(
-      "https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614"
-    )
+    .get(databaseAws)
     .then((res) => res.data)
     .catch((err) => console.log(err));
 };

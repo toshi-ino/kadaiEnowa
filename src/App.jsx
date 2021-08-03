@@ -16,10 +16,7 @@ import DropdownList from "react-widgets/DropdownList";
 import axios from "axios";
 import { fetchData } from "./Api";
 
-// envファイルのデータが読み込めなかったため、AWSのURLをハードコードする
-// const databaseAws = process.env.DATABASE_AWS
-const databaseAws =
-  "https://tbvr25b6a0.execute-api.ap-northeast-1.amazonaws.com/handson/datas/toshiro-20210614";
+const databaseAws = process.env.REACT_APP_DATABASE_AWS;
 
 const resourceInit = fetchData();
 
