@@ -412,6 +412,8 @@ const App = () => {
     );
   };
 
+  console.log();
+
   return (
     <React.Fragment>
       <BrowserRouter>
